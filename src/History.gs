@@ -80,21 +80,3 @@ function updateHistoryAmountsSheet() {
   let playthroughCountsRange = historySheet.getRange(1, 2, 1, 3)
   playthroughCountsRange.setFormulas([formulas])
 }
-
-function recordPercentages() {
-  Recordhistorylibrary.record("History (%)", 1)
-}
-
-function recordAmounts() {
-  Recordhistorylibrary.record("History (#)", 1)
-}
-
-function recordTempo() {
-  Recordhistorylibrary.record("History (Tempo)", 1)
-}
-
-function recordAll() {
-  recordPercentages()
-  recordAmounts()
-  recordTempo()
-}
