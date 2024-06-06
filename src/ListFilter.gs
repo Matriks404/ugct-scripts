@@ -1,3 +1,21 @@
+function checkIfFilteredListIsEmpty() {
+  let sheet = SpreadsheetApp.getActive().getSheetByName("List")
+
+  let row = sheet.getLastRow() - 1
+  let column = 7
+
+  let value = sheet.getRange(row, column).getValue()
+
+  // A bit of fancy hacky way to see whether or not filtered list is empty, that is checking if "Filtered" sum value is "#DIV/0!". This makes us not to iterate through every entry row to check if they are all hidden.
+  if (value == '#DIV/0!') {
+    let isResponsePositive = isUserPromptResponsePositive("There are no entries visible in the filtered list. Do you want to rest view to see all entries?")
+
+    if (isResponsePositive) {
+      resetView()
+    }
+  }
+}
+
 function resetFilter() {
   let sheet = SpreadsheetApp.getActive().getSheetByName("List")
   let filter = sheet.getFilter()
@@ -24,6 +42,9 @@ function filterNotStarted() {
   filter.setColumnFilterCriteria(10, criteria)
 
   sortByReleaseDate()
+
+  checkIfFilteredListIsEmpty()
+  resetCursorPosition()
 }
 
 function filterCurrent() {
@@ -47,6 +68,9 @@ function filterCurrent() {
   filter.setColumnFilterCriteria(10, criteria)
 
   sortByReleaseDate()
+
+  checkIfFilteredListIsEmpty()
+  resetCursorPosition()
 }
 
 function filterFinished() {
@@ -65,6 +89,13 @@ function filterFinished() {
   filter.sort(10, true)
 }
 
+function filterFinishedFromGUI() {
+  filterFinished()
+
+  checkIfFilteredListIsEmpty()
+  resetCursorPosition()
+}
+
 function filterFinishedPlayed() {
   filterFinished()
 
@@ -76,6 +107,9 @@ function filterFinishedPlayed() {
     .build()
 
   filter.setColumnFilterCriteria(6, criteria)
+
+  checkIfFilteredListIsEmpty()
+  resetCursorPosition()
 }
 
 function filterFinishedWatched() {
@@ -89,6 +123,9 @@ function filterFinishedWatched() {
     .build()
 
   filter.setColumnFilterCriteria(6, criteria)
+
+  checkIfFilteredListIsEmpty()
+  resetCursorPosition()
 }
 
 function filterFinishedNotRated() {
@@ -102,6 +139,9 @@ function filterFinishedNotRated() {
     .build()
 
   filter.setColumnFilterCriteria(13, criteria)
+
+  checkIfFilteredListIsEmpty();
+  resetCursorPosition()
 }
 
 function filterWithUndefinedDistributionMethod() {
@@ -117,4 +157,7 @@ function filterWithUndefinedDistributionMethod() {
   filter.setColumnFilterCriteria(12, criteria)
 
   sortByReleaseDate()
+
+  checkIfFilteredListIsEmpty()
+  resetCursorPosition()
 }

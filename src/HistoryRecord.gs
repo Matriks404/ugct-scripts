@@ -1,5 +1,5 @@
 function record(sheetName, row) {
-  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheetName);
+  var sheet = SpreadsheetApp.getActive().getSheetByName(sheetName);
   var source = sheet.getRange(row, 1, row, sheet.getLastColumn());
   var values = source.getValues();
 

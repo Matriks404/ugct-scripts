@@ -6,7 +6,8 @@ function updateHistoryPercentSheet() {
 
   // Get existing game series names in the sheet.
   let firstColumn = 3
-  let numberOfColumns = historySheet.getLastColumn() - firstColumn + 1
+  let lastColumn = historySheet.getLastColumn()
+  let numberOfColumns = lastColumn - firstColumn + 1
 
   let existingGameSeriesNames = historySheet.getRange(2, firstColumn, 1, numberOfColumns).getValues()[0]
 
@@ -63,7 +64,8 @@ function updateHistoryPercentSheet() {
   allPercentageCell.setFormula(`=Status!${allPercentageOriginCell.getA1Notation()}`)
 
   // Auto resize all columns.
-  historySheet.autoResizeColumns(1, historySheet.getLastColumn())
+  let columns = Array.from({length: lastColumn}, (v, i) => i + 1)
+  resizeColumnsToFit(historySheet, columns)
 }
 
 function updateHistoryAmountsSheet() {

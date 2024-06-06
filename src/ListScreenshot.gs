@@ -78,11 +78,9 @@ function addScreenshotDirectory() {
 
 function removeScreenshotDirectory() {
   function handleInvalid(row) {
-    let ui = SpreadsheetApp.getUi()
+    let isResponsePositive = isUserPromptResponsePositive("Current screenshot directory URL is not valid. Do you want to proceed?")
 
-    let error = ui.alert("Error", "Current screenshot directory URL is not valid. Do you want to proceed?", ui.ButtonSet.YES_NO)
-
-    if (error == ui.Button.YES) {
+    if (isResponsePositive) {
       row.setValue("")
     }
 
@@ -137,11 +135,9 @@ function removeScreenshotDirectory() {
   }
 
   if (gameModeFolder.getFolders().hasNext() || gameModeFolder.getFiles().hasNext()) {
-    let ui = SpreadsheetApp.getUi()
+    let isResponsePositive = isUserPromptResponsePositive("There are files and/or folders inside the screenshot directory of the currently selected playthrough. Do you want to proceed?")
 
-    let error = ui.alert("Error", "There are files and/or folders inside the screenshot directory of the currently selected playthrough. Do you want to proceed?", ui.ButtonSet.YES_NO)
-
-    if (error == ui.Button.NO) {
+    if (!isResponsePositive) {
       return
     }
   }
@@ -198,12 +194,11 @@ function updateScreenshotDirectory(sheet, rowNumber) {
   let oldGameFolder = getParentFolder(gameModeFolder)
   let oldGameSeriesFolder = getParentFolder(oldGameFolder)
 
+  //TODO: Check if this still works. I am not even sure right now if this is a right logic, due to how long ago I have written this code.
   if (screenshotFolder.getId() != getParentFolder(oldGameSeriesFolder).getId()) {
-    let ui = SpreadsheetApp.getUi()
+    let isResponsePositive = isUserPromptResponsePositive("Current screenshot directory URL is not valid. Do you want to proceed?")
 
-    let error = ui.alert("Error", "Current screenshot directory URL is not valid. Do you want to proceed?", ui.ButtonSet.YES_NO)
-
-    if (error == ui.Button.YES) {
+    if (isResponsePositive) {
       screenshotCell.setValue("")
 
       addScreenshotDirectory()

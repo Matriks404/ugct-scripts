@@ -125,8 +125,10 @@ function updateSingleStatistics(name, sourceColumn, targetColumn) {
       countCell.setFormula(`=COUNTIF(List!${inputColumn}3:${inputColumn}100000; ${outputColumn}${i + firstDataRow})`)
       countCell.setHorizontalAlignment("center")
 
-      statisticsSheet.autoResizeColumns(targetColumn, 2)
     }
+
+    let columns = [targetColumn, targetColumn + 1]
+    resizeColumnsToFit(statisticsSheet, columns)
 }
 
 function updatePlatformStatistics() {

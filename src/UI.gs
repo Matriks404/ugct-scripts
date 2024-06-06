@@ -3,7 +3,7 @@ function createFilterMenu(ui) {
 
   menu.addItem("Not started playthroughs", "filterNotStarted")
   menu.addItem("Current playthroughs", "filterCurrent")
-  menu.addItem("Finished playthroughs", "filterFinished")
+  menu.addItem("Finished playthroughs", "filterFinishedFromGUI")
   menu.addSeparator()
 
   menu.addItem("Finished playthroughs (Played)", "filterFinishedPlayed")
@@ -47,6 +47,7 @@ function createGameListMenu(ui) {
   menu.addItem("Sort by game series", "sortByGameSeries")
   menu.addSeparator()
 
+  menu.addItem("Resize columns to fit", "resizeListColumnsToFit")
   menu.addItem("Reset view", "resetView")
   menu.addSeparator()
 
@@ -117,4 +118,10 @@ function showInfo(message) {
   let ui = SpreadsheetApp.getUi()
 
   ui.alert("Info", message, ui.ButtonSet.OK)
+}
+
+function isUserPromptResponsePositive(message) {
+  let ui = SpreadsheetApp.getUi()
+
+  return ui.alert("Question", message, ui.ButtonSet.YES_NO) == ui.Button.YES
 }

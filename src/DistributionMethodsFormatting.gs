@@ -4,7 +4,7 @@ function openDMFSheet() {
   let ss = SpreadsheetApp.getActive()
   let sheet = ss.getSheetByName(sheetName)
 
-  sheet.autoResizeColumns(1, 1)
+  resizeColumnToFit(sheet, 1)
 
   sheet.showSheet()
   ss.setActiveSheet(sheet)
