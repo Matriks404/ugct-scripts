@@ -2,7 +2,7 @@ function checkIfFilteredListIsEmpty() {
   let sheet = SpreadsheetApp.getActive().getSheetByName("List")
 
   let row = sheet.getLastRow() - 1
-  let column = 7
+  let column = 6
 
   let value = sheet.getRange(row, column).getValue()
 
@@ -20,7 +20,7 @@ function resetFilter() {
   let sheet = SpreadsheetApp.getActive().getSheetByName("List")
   let filter = sheet.getFilter()
 
-  let lastColumn = 13
+  let lastColumn = 10
 
   for (i = 1; i <= lastColumn; i++) {
     filter.removeColumnFilterCriteria(i)
@@ -33,14 +33,16 @@ function filterNotStarted() {
   let sheet = SpreadsheetApp.getActive().getSheetByName("List")
   let filter = sheet.getFilter()
 
-  // Filter not started playthroughs, by checking whether they have start or end dates (for good measure).
+  // Let's make a criteria
   let criteria = SpreadsheetApp.newFilterCriteria()
     .whenCellEmpty()
     .build()
 
+  // Filter not started playthroughs, by checking whether they have start or end dates (for good measure).
+  filter.setColumnFilterCriteria(8, criteria)
   filter.setColumnFilterCriteria(9, criteria)
-  filter.setColumnFilterCriteria(10, criteria)
 
+  // Sort not started playthroughs by release date.
   sortByReleaseDate()
 
   checkIfFilteredListIsEmpty()
@@ -58,15 +60,16 @@ function filterCurrent() {
     .whenCellNotEmpty()
     .build()
 
-  filter.setColumnFilterCriteria(9, criteria)
+  filter.setColumnFilterCriteria(8, criteria)
 
   // Filter not finished playthroughs.
   criteria = SpreadsheetApp.newFilterCriteria()
     .whenCellEmpty()
     .build()
 
-  filter.setColumnFilterCriteria(10, criteria)
+  filter.setColumnFilterCriteria(9, criteria)
 
+  // Sort current playthroughs by release date.
   sortByReleaseDate()
 
   checkIfFilteredListIsEmpty()
@@ -79,50 +82,19 @@ function filterFinished() {
   let sheet = SpreadsheetApp.getActive().getSheetByName("List")
   let filter = sheet.getFilter()
 
+  // Filter finished playthroughs.
   let criteria = SpreadsheetApp.newFilterCriteria()
     .whenCellNotEmpty()
     .build()
 
-  filter.setColumnFilterCriteria(10, criteria)
+  filter.setColumnFilterCriteria(9, criteria)
 
   // Sort finished playthroughs by end date.
-  filter.sort(10, true)
+  filter.sort(9, true)
 }
 
 function filterFinishedFromGUI() {
   filterFinished()
-
-  checkIfFilteredListIsEmpty()
-  resetCursorPosition()
-}
-
-function filterFinishedPlayed() {
-  filterFinished()
-
-  let sheet = SpreadsheetApp.getActive().getSheetByName("List")
-  let filter = sheet.getFilter()
-
-  let criteria = SpreadsheetApp.newFilterCriteria()
-    .whenTextStartsWith("Played")
-    .build()
-
-  filter.setColumnFilterCriteria(6, criteria)
-
-  checkIfFilteredListIsEmpty()
-  resetCursorPosition()
-}
-
-function filterFinishedWatched() {
-  filterFinished()
-
-  let sheet = SpreadsheetApp.getActive().getSheetByName("List")
-  let filter = sheet.getFilter()
-
-  let criteria = SpreadsheetApp.newFilterCriteria()
-    .whenTextEqualTo("Watched")
-    .build()
-
-  filter.setColumnFilterCriteria(6, criteria)
 
   checkIfFilteredListIsEmpty()
   resetCursorPosition()
@@ -134,29 +106,12 @@ function filterFinishedNotRated() {
   let sheet = SpreadsheetApp.getActive().getSheetByName("List")
   let filter = sheet.getFilter()
 
+  // Filter not rated playthroughs.
   let criteria = SpreadsheetApp.newFilterCriteria()
     .whenCellEmpty()
     .build()
 
-  filter.setColumnFilterCriteria(13, criteria)
-
-  checkIfFilteredListIsEmpty();
-  resetCursorPosition()
-}
-
-function filterWithUndefinedDistributionMethod() {
-  resetFilter()
-
-  let sheet = SpreadsheetApp.getActive().getSheetByName("List")
-  let filter = sheet.getFilter()
-
-  let criteria = SpreadsheetApp.newFilterCriteria()
-    .whenCellEmpty()
-    .build()
-
-  filter.setColumnFilterCriteria(12, criteria)
-
-  sortByReleaseDate()
+  filter.setColumnFilterCriteria(10, criteria)
 
   checkIfFilteredListIsEmpty()
   resetCursorPosition()
